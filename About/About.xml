@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Crate (Continued)</name>
+  <packageId>Mlie.Crate</packageId>
+  <author>Vendan</author>
+  <url>https://github.com/emipa606/Crate</url>
+  <supportedVersions>
+    <li>1.1</li>
+    <li>1.2</li>
+    <li>1.3</li>
+  </supportedVersions>
+  <modDependencies />
+  <loadAfter />
+  <description>[img]https://i.imgur.com/buuPQel.png[/img]
+Update of Vendans mod
+https://steamcommunity.com/sharedfiles/filedetails/?id=839827858
+
+- Moved the crate-construction from the tailoring to the smithing bench
+
+[img]https://i.imgur.com/pufA0kM.png[/img]
+
+[table]
+    [tr]
+        [td][url=https://invite.gg/Mlie][img]https://i.imgur.com/zdzzBrc.png[/img][/url][/td]
+        [td][url=https://github.com/emipa606/Crate][img]https://i.imgur.com/kTkpTOE.png[/img][/url][/td]
+    [/tr]
+[/table]
+	
+[img]https://i.imgur.com/Z4GOv8H.png[/img]
+A crate to put all your stuff in!
+
+Crates are a simple way to pack up a bunch of items for transport on caravans to camps or colonies.  You can mass pack/unpack to designated areas, or pack/unpack specific items to specific locations.  Colonists can't directly access the contents, so you'll have to remember to unpack if they need something, but on the plus side, a colonist can quickly pack up a bunch of items, and then move them all to a herd animal/transport pod at once, rather then taking 20 trips.
+
+[img]https://i.imgur.com/PwoNOj4.png[/img]
+[list]
+[*] See if the the error persists if you just have this mod and its requirements active.
+[*] If not, try adding your other mods until it happens again.
+[*] Post your error-log using [url=https://steamcommunity.com/workshop/filedetails/?id=818773962]HugsLib[/url] and command Ctrl+F12
+[*] For best support, please use the Discord-channel for error-reporting.
+[*] Do not report errors by making a discussion-thread, I get no notification of that.
+[*] If you have the solution for a problem, please post it to the GitHub repository.
+[/list]
+</description>
+</ModMetaData>
+

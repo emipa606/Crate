@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef>
+    <defName>Crate</defName>
+    <label>crate</label>
+    <description>A crate to store all kinds of things in.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <pathCost>15</pathCost>
+    <tradeTags>
+      <li>Furniture</li>
+    </tradeTags>
+    <graphicData>
+      <texPath>Crate/Crate</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <stackLimit>1</stackLimit>
+    <tradeNeverStack>true</tradeNeverStack>
+    <useHitPoints>true</useHitPoints>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <statBases>
+      <MarketValue>100</MarketValue>
+      <MaxHitPoints>140</MaxHitPoints>
+      <Mass>0.5</Mass>
+      <WorkToMake>2500</WorkToMake>
+      <Beauty>-1</Beauty>
+    </statBases>
+    <drawGUIOverlay>false</drawGUIOverlay>
+    <comps>
+      <li Class="ThingBag.ThingBag_Properties">
+        <DefaultFilter>
+          <categories>
+            <li>Foods</li>
+            <li>Manufactured</li>
+            <li>ResourcesRaw</li>
+            <li>Items</li>
+            <li>BuildingsArt</li>
+            <li>Weapons</li>
+            <li>Apparel</li>
+            <li>BodyParts</li>
+          </categories>
+        </DefaultFilter>
+        <MaxMass>25</MaxMass>
+      </li>
+      <li Class="CompProperties_Forbiddable" />
+    </comps>
+    <costList>
+      <WoodLog>5</WoodLog>
+    </costList>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+        <li>CraftingSpot</li>
+      </recipeUsers>
+    </recipeMaker>
+    <inspectorTabs>
+      <li>ThingBag.ITab_Filter</li>
+      <li>ThingBag.ITab_Contents</li>
+    </inspectorTabs>
+  </ThingDef>
+</Defs>

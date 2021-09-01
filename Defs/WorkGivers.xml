@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WorkGiverDef>
+    <defName>UnpackThingBag</defName>
+    <label>Unpack items from crate</label>
+    <giverClass>ThingBag.WorkGiver_Unpack</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>75</priorityInType>
+    <verb>unpack</verb>
+    <gerund>unpacking</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+  <WorkGiverDef>
+    <defName>PackThingBag</defName>
+    <label>pack items into crate</label>
+    <giverClass>ThingBag.WorkGiver_Pack</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>76</priorityInType>
+    <verb>pack</verb>
+    <gerund>packing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+</Defs>

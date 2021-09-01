@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Crate</name>
+  <author>Vendan</author>
+  <targetVersion>0.16.0</targetVersion>
+  <description>A crate to put all your stuff in!</description>
+</ModMetaData>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>PackBag</defName>
+    <driverClass>ThingBag.JobDriver_PackBag</driverClass>
+    <reportString>packing TargetA.</reportString>
+  </JobDef>
+  <JobDef>
+    <defName>PackBagSingle</defName>
+    <driverClass>ThingBag.JobDriver_PackBagSingle</driverClass>
+    <reportString>packing TargetB into TargetA.</reportString>
+  </JobDef>
+  <JobDef>
+    <defName>UnpackBag</defName>
+    <driverClass>ThingBag.JobDriver_UnpackBag</driverClass>
+    <reportString>unpacking TargetC.</reportString>
+  </JobDef>
+  <JobDef>
+    <defName>UnpackBagSingle</defName>
+    <driverClass>ThingBag.JobDriver_UnpackBagSingle</driverClass>
+    <reportString>unpacking TargetA from TargetC.</reportString>
+  </JobDef>
+</Defs>
