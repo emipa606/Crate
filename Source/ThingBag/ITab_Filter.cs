@@ -2,23 +2,22 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace ThingBag
+namespace ThingBag;
+
+public class ITab_Filter : ITab
 {
-    public class ITab_Filter : ITab
+    private readonly ThingFilterUI.UIState thingFilterState = new ThingFilterUI.UIState();
+
+    public ITab_Filter()
     {
-        private readonly ThingFilterUI.UIState thingFilterState = new ThingFilterUI.UIState();
+        labelKey = "TabFilter";
+        size = new Vector2(300f, 480f);
+    }
 
-        public ITab_Filter()
-        {
-            labelKey = "TabFilter";
-            size = new Vector2(300f, 480f);
-        }
-
-        protected override void FillTab()
-        {
-            var thingFilter = SelThing.TryGetComp<ThingBagComp>()?.filter;
-            var rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
-            ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, thingFilter, null, 8);
-        }
+    protected override void FillTab()
+    {
+        var thingFilter = SelThing.TryGetComp<ThingBagComp>()?.filter;
+        var rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+        ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, thingFilter, null, 8);
     }
 }

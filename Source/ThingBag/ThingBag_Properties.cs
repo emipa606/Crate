@@ -1,27 +1,23 @@
 using Verse;
 
-namespace ThingBag
+namespace ThingBag;
+
+public class ThingBag_Properties : CompProperties
 {
-    public class ThingBag_Properties : CompProperties
+    public ThingFilter DefaultFilter = new ThingFilter();
+
+    public float MaxMass = 100f;
+
+    public int Radius = 3;
+
+    public ThingBag_Properties()
     {
-        public ThingFilter DefaultFilter = new ThingFilter();
+        compClass = typeof(ThingBagComp);
+    }
 
-        public float MaxMass = 100f;
-
-        public int Radius = 3;
-
-        public ThingBag_Properties()
-        {
-            compClass = typeof(ThingBagComp);
-        }
-
-        public override void ResolveReferences(ThingDef parentDef)
-        {
-            base.ResolveReferences(parentDef);
-            if (DefaultFilter != null)
-            {
-                DefaultFilter.ResolveReferences();
-            }
-        }
+    public override void ResolveReferences(ThingDef parentDef)
+    {
+        base.ResolveReferences(parentDef);
+        DefaultFilter?.ResolveReferences();
     }
 }

@@ -1,30 +1,29 @@
 using Verse;
 
-namespace ThingBag
+namespace ThingBag;
+
+internal class Dialog_RenameCrate : Dialog_Rename
 {
-    internal class Dialog_RenameCrate : Dialog_Rename
+    private readonly ThingBagComp tbc;
+
+    public Dialog_RenameCrate(ThingBagComp t)
     {
-        private readonly ThingBagComp tbc;
+        tbc = t;
+        curName = tbc.Label;
+    }
 
-        public Dialog_RenameCrate(ThingBagComp t)
+    protected override AcceptanceReport NameIsValid(string name)
+    {
+        return true;
+    }
+
+    protected override void SetName(string name)
+    {
+        if (string.IsNullOrEmpty(name))
         {
-            tbc = t;
-            curName = tbc.Label;
+            name = "";
         }
 
-        protected override AcceptanceReport NameIsValid(string name)
-        {
-            return true;
-        }
-
-        protected override void SetName(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                name = "";
-            }
-
-            tbc.Label = name;
-        }
+        tbc.Label = name;
     }
 }

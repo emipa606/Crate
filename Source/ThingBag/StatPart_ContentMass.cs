@@ -1,50 +1,49 @@
 using RimWorld;
 using Verse;
 
-namespace ThingBag
+namespace ThingBag;
+
+[StaticConstructorOnStartup]
+internal class StatPart_ContentMass : StatPart
 {
-    [StaticConstructorOnStartup]
-    internal class StatPart_ContentMass : StatPart
+    static StatPart_ContentMass()
     {
-        static StatPart_ContentMass()
+        StatDefOf.Mass.parts.Add(new StatPart_ContentMass());
+    }
+
+    public override string ExplanationPart(StatRequest req)
+    {
+        if (TryGetValue(req, out var value))
         {
-            StatDefOf.Mass.parts.Add(new StatPart_ContentMass());
+            return "StatsReport_ThingBagContentsMass".Translate() + ": " + value.ToString("+0.##;-0.##;0") + "kg";
         }
 
-        public override string ExplanationPart(StatRequest req)
-        {
-            if (TryGetValue(req, out var value))
-            {
-                return "StatsReport_ThingBagContentsMass".Translate() + ": " + value.ToString("+0.##;-0.##;0") + "kg";
-            }
+        return null;
+    }
 
-            return null;
+    public override void TransformValue(StatRequest req, ref float val)
+    {
+        if (TryGetValue(req, out var value))
+        {
+            val += value;
+        }
+    }
+
+    private bool TryGetValue(StatRequest req, out float value)
+    {
+        value = 0f;
+        if (!req.HasThing || req.Thing is not ThingWithComps comps)
+        {
+            return false;
         }
 
-        public override void TransformValue(StatRequest req, ref float val)
+        var comp = comps.GetComp<ThingBagComp>();
+        if (comp == null)
         {
-            if (TryGetValue(req, out var value))
-            {
-                val += value;
-            }
+            return false;
         }
 
-        private bool TryGetValue(StatRequest req, out float value)
-        {
-            value = 0f;
-            if (!req.HasThing || req.Thing is not ThingWithComps comps)
-            {
-                return false;
-            }
-
-            var comp = comps.GetComp<ThingBagComp>();
-            if (comp == null)
-            {
-                return false;
-            }
-
-            value = comp.ContentMass;
-            return true;
-        }
+        value = comp.ContentMass;
+        return true;
     }
 }
