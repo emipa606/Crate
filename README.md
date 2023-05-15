@@ -30,3 +30,4 @@ Crates are a simple way to pack up a bunch of items for transport on caravans to
 
 
 
+https://steamcommunity.com/sharedfiles/filedetails/changelog/2591098624]Last updated 2023-05-15
