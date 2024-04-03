@@ -4,14 +4,9 @@ using Verse;
 
 namespace ThingBag;
 
-public class ThingBagTasks : MapComponent
+public class ThingBagTasks(Map map) : MapComponent(map)
 {
-    public List<Task> tasks = new List<Task>();
-
-    public ThingBagTasks(Map map)
-        : base(map)
-    {
-    }
+    public List<Task> tasks = [];
 
     public override void ExposeData()
     {

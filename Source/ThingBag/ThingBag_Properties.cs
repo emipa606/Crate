@@ -4,11 +4,11 @@ namespace ThingBag;
 
 public class ThingBag_Properties : CompProperties
 {
-    public ThingFilter DefaultFilter = new ThingFilter();
+    public readonly ThingFilter DefaultFilter = new ThingFilter();
 
-    public float MaxMass = 100f;
+    public readonly float MaxMass = 100f;
 
-    public int Radius = 3;
+    public readonly int Radius = 3;
 
     public ThingBag_Properties()
     {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -43,7 +42,7 @@ internal class ITab_Contents : ITab
                 delegate(LocalTargetInfo t)
                 {
                     Find.CurrentMap.GetThingBagTasks()
-                        .AddTask(true, SelThing, new List<Thing> { t.Thing }, IntVec3.Invalid);
+                        .AddTask(true, SelThing, [t.Thing], IntVec3.Invalid);
                 });
         }
 
@@ -73,12 +72,9 @@ internal class ITab_Contents : ITab
 
                 if (!pawn.RaceProps.Humanlike)
                 {
-                    if (!pawn.Drawer.renderer.graphics.AllResolved)
-                    {
-                        pawn.Drawer.renderer.graphics.ResolveAllGraphics();
-                    }
+                    pawn.Drawer.renderer.EnsureGraphicsInitialized();
 
-                    var matSingle = pawn.Drawer.renderer.graphics.nakedGraphic.MatSingle;
+                    var matSingle = pawn.Drawer.renderer.BodyGraphic.MatSingle;
                     texture2D = matSingle.mainTexture as Texture2D;
                     GUI.color = matSingle.color;
                 }
@@ -107,13 +103,13 @@ internal class ITab_Contents : ITab
                 canTargetPawns = false,
                 canTargetLocations = true
             };
-            var unused = SelThing;
+            _ = SelThing;
             var dropitem = item;
             Find.Targeter.BeginTargeting(targetParams,
                 delegate(LocalTargetInfo t)
                 {
                     Find.CurrentMap.GetThingBagTasks()
-                        .AddTask(false, SelThing, new List<Thing> { dropitem }, t.Cell);
+                        .AddTask(false, SelThing, [dropitem], t.Cell);
                 });
         }
 

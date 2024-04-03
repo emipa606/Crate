@@ -16,15 +16,15 @@ public class ThingBagComp : ThingComp
 
     public static readonly Texture2D Unpack = ContentFinder<Texture2D>.Get("Crate/CrateUnpack");
 
+    public readonly ThingFilter filter = new ThingFilter();
+
     public float ContentMass;
 
-    public ThingFilter filter = new ThingFilter();
-
-    public List<Thing> items = new List<Thing>();
+    public List<Thing> items = [];
 
     public string Label = "";
 
-    private List<Thing> plan = new List<Thing>();
+    private List<Thing> plan = [];
 
     public ThingBag_Properties Props => props as ThingBag_Properties;
 
@@ -152,15 +152,14 @@ public class ThingBagComp : ThingComp
             plan.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount) > Props.MaxMass);
     }
 
-    private bool PlanPackOne(Thing thing)
+    private void PlanPackOne(Thing thing)
     {
         if (!PlanCanPack(thing))
         {
-            return false;
+            return;
         }
 
         plan.Add(thing);
-        return true;
     }
 
     private void StartPlanUnpack(List<Thing> planitems = null)
@@ -212,11 +211,11 @@ public class ThingBagComp : ThingComp
         return job;
     }
 
-    public Job Build_PackJobSpecific(Pawn pawn, List<Thing> items)
+    public Job Build_PackJobSpecific(Pawn pawn, List<Thing> things)
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("PackBag"), parent);
         StartPlanPack();
-        foreach (var item in items)
+        foreach (var item in things)
         {
             if (item == null || !PlanCanPack(item) ||
                 !pawn.CanReserveAndReach((LocalTargetInfo)item, PathEndMode.Touch, Danger.Deadly))
@@ -240,7 +239,7 @@ public class ThingBagComp : ThingComp
 
     public Job Build_PackSingleJob(IntVec3 pos, Pawn pawn, Thing item)
     {
-        var unused = new Job(DefDatabase<JobDef>.GetNamed("PackBagSingle"), parent);
+        _ = new Job(DefDatabase<JobDef>.GetNamed("PackBagSingle"), parent);
         StartPlanPack();
         if (item != null && PlanCanPack(item) &&
             pawn.CanReserveAndReach((LocalTargetInfo)item, PathEndMode.Touch, Danger.Deadly))
@@ -251,11 +250,11 @@ public class ThingBagComp : ThingComp
         return null;
     }
 
-    public Job Build_UnpackJob(IntVec3 pos, Pawn pawn, List<Thing> items = null)
+    public Job Build_UnpackJob(IntVec3 pos, Pawn pawn, List<Thing> things = null)
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("UnpackBag"));
         job.SetTarget(TargetIndex.C, parent);
-        StartPlanUnpack(items);
+        StartPlanUnpack(things);
         var thing = PlanUnpackOne();
         foreach (var item in GenRadial.RadialCellsAround(pos, Props.Radius, true))
         {
@@ -288,7 +287,7 @@ public class ThingBagComp : ThingComp
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("UnpackBagSingle"));
         job.SetTarget(TargetIndex.C, parent);
-        StartPlanUnpack(new List<Thing> { item });
+        StartPlanUnpack([item]);
         var thing = PlanUnpackOne();
         foreach (var item2 in GenRadial.RadialCellsAround(pos, Props.Radius, true))
         {
