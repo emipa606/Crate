@@ -4,7 +4,7 @@ namespace ThingBag;
 
 public class ThingBag_Properties : CompProperties
 {
-    public readonly ThingFilter DefaultFilter = new ThingFilter();
+    public readonly ThingFilter DefaultFilter = new();
 
     public readonly float MaxMass = 100f;
 

@@ -6,17 +6,17 @@ namespace ThingBag;
 
 public class ThingBagTasks(Map map) : MapComponent(map)
 {
-    public List<Task> tasks = [];
+    public List<Task> MapTasks = [];
 
     public override void ExposeData()
     {
         base.ExposeData();
-        Scribe_Collections.Look(ref tasks, "tasks");
+        Scribe_Collections.Look(ref MapTasks, "tasks");
     }
 
     public IEnumerable<Task> Tasks(bool pack)
     {
-        return tasks.Where(t => t.Pack == pack);
+        return MapTasks.Where(t => t.Pack == pack);
     }
 
     public Task FirstTaskFor(Thing t, bool pack, bool single = false)
@@ -27,12 +27,12 @@ public class ThingBagTasks(Map map) : MapComponent(map)
 
     public void RemoveTask(Task task)
     {
-        tasks.Remove(task);
+        MapTasks.Remove(task);
     }
 
     public void AddTask(bool pack, Thing t, List<Thing> items, IntVec3 pos)
     {
-        tasks.Add(new Task
+        MapTasks.Add(new Task
         {
             Pack = pack,
             bag = t,

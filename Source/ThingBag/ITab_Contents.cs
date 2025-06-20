@@ -23,7 +23,7 @@ internal class ITab_Contents : ITab
             return;
         }
 
-        var items = tbc.items;
+        var items = tbc.Items;
         var rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
         Widgets.Label(rect.TopPartPixels(30f).LeftHalf().TopPartPixels(25f),
             $"{tbc.ContentMass:0.##;-0.##;0}kg / {tbc.Props.MaxMass:0.##;-0.##;0}kg");

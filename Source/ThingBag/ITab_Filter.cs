@@ -6,7 +6,7 @@ namespace ThingBag;
 
 public class ITab_Filter : ITab
 {
-    private readonly ThingFilterUI.UIState thingFilterState = new ThingFilterUI.UIState();
+    private readonly ThingFilterUI.UIState thingFilterState = new();
 
     public ITab_Filter()
     {
@@ -16,7 +16,7 @@ public class ITab_Filter : ITab
 
     protected override void FillTab()
     {
-        var thingFilter = SelThing.TryGetComp<ThingBagComp>()?.filter;
+        var thingFilter = SelThing.TryGetComp<ThingBagComp>()?.Filter;
         var rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
         ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, thingFilter, null, 8);
     }

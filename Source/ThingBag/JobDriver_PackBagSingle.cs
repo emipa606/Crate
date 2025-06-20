@@ -7,7 +7,7 @@ namespace ThingBag;
 
 internal class JobDriver_PackBagSingle : JobDriver
 {
-    private ThingBagComp bag => (TargetThingA as ThingWithComps)?.GetComp<ThingBagComp>();
+    private ThingBagComp Bag => (TargetThingA as ThingWithComps)?.GetComp<ThingBagComp>();
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
@@ -41,7 +41,7 @@ internal class JobDriver_PackBagSingle : JobDriver
         };
         packItem.AddFinishAction(delegate
         {
-            if (bag.PackOne(TargetThingB))
+            if (Bag.PackOne(TargetThingB))
             {
                 packItem.actor.carryTracker.innerContainer.Remove(TargetThingB);
             }
@@ -51,10 +51,10 @@ internal class JobDriver_PackBagSingle : JobDriver
         var finishJob = new Toil();
         finishJob.AddFinishAction(delegate
         {
-            var task = bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(bag.parent, true, true);
+            var task = Bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(Bag.parent, true, true);
             if (task != null)
             {
-                bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
+                Bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
             }
         });
         yield return finishJob;

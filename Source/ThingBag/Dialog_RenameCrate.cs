@@ -7,7 +7,7 @@ namespace ThingBag;
 internal class Dialog_RenameCrate : Window
 {
     private readonly ThingBagComp tbc;
-    protected string curName;
+    private string curName;
 
     private bool focusedRenameField;
     private int startAcceptingInputAtFrame;
@@ -24,10 +24,10 @@ internal class Dialog_RenameCrate : Window
     }
 
     private bool AcceptsInput => startAcceptingInputAtFrame <= Time.frameCount;
-    protected int MaxNameLength => 28;
-    public override Vector2 InitialSize => new Vector2(280f, 175f);
+    private static int MaxNameLength => 28;
+    public override Vector2 InitialSize => new(280f, 175f);
 
-    protected AcceptanceReport NameIsValid(string name)
+    private AcceptanceReport NameIsValid()
     {
         return true;
     }
@@ -70,7 +70,7 @@ internal class Dialog_RenameCrate : Window
             return;
         }
 
-        var acceptanceReport = NameIsValid(curName);
+        var acceptanceReport = NameIsValid();
         if (!acceptanceReport.Accepted)
         {
             if (acceptanceReport.Reason.NullOrEmpty())
@@ -87,7 +87,7 @@ internal class Dialog_RenameCrate : Window
         Find.WindowStack.TryRemove(this);
     }
 
-    protected void SetName(string name)
+    private void SetName(string name)
     {
         if (string.IsNullOrEmpty(name))
         {

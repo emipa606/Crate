@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: packing TargetA. -->
+  <PackBag.reportString>packing TargetA.</PackBag.reportString>
+  <!-- EN: packing TargetB into TargetA. -->
+  <PackBagSingle.reportString>packing TargetB into TargetA.</PackBagSingle.reportString>
+  <!-- EN: unpacking TargetC. -->
+  <UnpackBag.reportString>unpacking TargetC.</UnpackBag.reportString>
+  <!-- EN: unpacking TargetA from TargetC. -->
+  <UnpackBagSingle.reportString>unpacking TargetA from TargetC.</UnpackBagSingle.reportString>
+</LanguageData>

@@ -10,17 +10,17 @@ namespace ThingBag;
 [StaticConstructorOnStartup]
 public class ThingBagComp : ThingComp
 {
-    public static readonly Texture2D Rename = ContentFinder<Texture2D>.Get("UI/Buttons/Rename");
+    private static readonly Texture2D rename = ContentFinder<Texture2D>.Get("UI/Buttons/Rename");
 
-    public static readonly Texture2D Pack = ContentFinder<Texture2D>.Get("Crate/CratePack");
+    private static readonly Texture2D pack = ContentFinder<Texture2D>.Get("Crate/CratePack");
 
-    public static readonly Texture2D Unpack = ContentFinder<Texture2D>.Get("Crate/CrateUnpack");
+    private static readonly Texture2D unpack = ContentFinder<Texture2D>.Get("Crate/CrateUnpack");
 
-    public readonly ThingFilter filter = new ThingFilter();
+    public readonly ThingFilter Filter = new();
 
     public float ContentMass;
 
-    public List<Thing> items = [];
+    public List<Thing> Items = [];
 
     public string Label = "";
 
@@ -30,14 +30,14 @@ public class ThingBagComp : ThingComp
 
     public float Fill => ContentMass / Props.MaxMass;
 
-    public bool Full => ContentMass > Props.MaxMass;
+    private bool Full => ContentMass > Props.MaxMass;
 
-    public bool Empty => items.Count == 0;
+    private bool Empty => Items.Count == 0;
 
     public override void Initialize(CompProperties props)
     {
         base.Initialize(props);
-        filter.CopyAllowancesFrom(Props.DefaultFilter);
+        Filter.CopyAllowancesFrom(Props.DefaultFilter);
     }
 
     public override string TransformLabel(string label)
@@ -48,49 +48,49 @@ public class ThingBagComp : ThingComp
     public override void PostExposeData()
     {
         base.PostExposeData();
-        Scribe_Collections.Look(ref items, "items", LookMode.Deep);
+        Scribe_Collections.Look(ref Items, "items", LookMode.Deep);
         Scribe_Values.Look(ref Label, "label", "");
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            ContentMass = items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
+            ContentMass = Items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
         }
     }
 
     public void UnpackOne(IntVec3 pos, Map map, Thing item)
     {
-        if (items.Count == 0 || !items.Contains(item))
+        if (Items.Count == 0 || !Items.Contains(item))
         {
             return;
         }
 
         if (GenPlace.TryPlaceThing(item, pos, map, ThingPlaceMode.Direct))
         {
-            items.Remove(item);
+            Items.Remove(item);
         }
 
-        ContentMass = items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
+        ContentMass = Items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
     }
 
     public Thing UnpackOneRaw(Thing item)
     {
-        if (items.Count == 0)
+        if (Items.Count == 0)
         {
             return null;
         }
 
-        if (!items.Contains(item))
+        if (!Items.Contains(item))
         {
             return null;
         }
 
-        items.Remove(item);
-        ContentMass = items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
+        Items.Remove(item);
+        ContentMass = Items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
         return item;
     }
 
     public bool CanPack(Thing thing)
     {
-        if (!filter.Allows(thing))
+        if (!Filter.Allows(thing))
         {
             return false;
         }
@@ -115,35 +115,35 @@ public class ThingBagComp : ThingComp
             splitted = true;
         }
 
-        foreach (var item in items)
+        foreach (var item in Items)
         {
             if (!item.TryAbsorbStack(thing, true))
             {
                 continue;
             }
 
-            ContentMass = items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
+            ContentMass = Items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
             return !splitted;
         }
 
-        items.Add(thing);
+        Items.Add(thing);
         if (thing.Spawned)
         {
             thing.DeSpawn();
         }
 
-        ContentMass = items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
+        ContentMass = Items.Sum(i => i.GetStatValue(StatDefOf.Mass) * i.stackCount);
         return !splitted;
     }
 
-    private void StartPlanPack()
+    private void startPlanPack()
     {
         plan.Clear();
     }
 
-    private bool PlanCanPack(Thing thing)
+    private bool planCanPack(Thing thing)
     {
-        if (!filter.Allows(thing))
+        if (!Filter.Allows(thing))
         {
             return false;
         }
@@ -154,7 +154,7 @@ public class ThingBagComp : ThingComp
 
     private void PlanPackOne(Thing thing)
     {
-        if (!PlanCanPack(thing))
+        if (!planCanPack(thing))
         {
             return;
         }
@@ -162,9 +162,9 @@ public class ThingBagComp : ThingComp
         plan.Add(thing);
     }
 
-    private void StartPlanUnpack(List<Thing> planitems = null)
+    private void startPlanUnpack(List<Thing> planitems = null)
     {
-        plan = planitems != null ? planitems.Where(i => items.Contains(i)).ToList() : items.ToList();
+        plan = planitems != null ? planitems.Where(i => Items.Contains(i)).ToList() : Items.ToList();
     }
 
     private Thing PlanUnpackOne()
@@ -182,16 +182,16 @@ public class ThingBagComp : ThingComp
     public Job Build_PackJob(IntVec3 pos, Pawn pawn)
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("PackBag"), parent);
-        StartPlanPack();
+        startPlanPack();
         foreach (var item in GenRadial.RadialCellsAround(pos, Props.Radius, true))
         {
             var firstItem = item.GetFirstItem(parent.Map);
             if (firstItem != null)
             {
-                Log.Message($"Can pack {firstItem} = {PlanCanPack(firstItem)}");
+                Log.Message($"Can pack {firstItem} = {planCanPack(firstItem)}");
             }
 
-            if (firstItem == null || !PlanCanPack(firstItem) ||
+            if (firstItem == null || !planCanPack(firstItem) ||
                 !pawn.CanReserveAndReach((LocalTargetInfo)firstItem, PathEndMode.Touch, Danger.Deadly))
             {
                 continue;
@@ -214,10 +214,10 @@ public class ThingBagComp : ThingComp
     public Job Build_PackJobSpecific(Pawn pawn, List<Thing> things)
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("PackBag"), parent);
-        StartPlanPack();
+        startPlanPack();
         foreach (var item in things)
         {
-            if (item == null || !PlanCanPack(item) ||
+            if (item == null || !planCanPack(item) ||
                 !pawn.CanReserveAndReach((LocalTargetInfo)item, PathEndMode.Touch, Danger.Deadly))
             {
                 continue;
@@ -240,8 +240,8 @@ public class ThingBagComp : ThingComp
     public Job Build_PackSingleJob(IntVec3 pos, Pawn pawn, Thing item)
     {
         _ = new Job(DefDatabase<JobDef>.GetNamed("PackBagSingle"), parent);
-        StartPlanPack();
-        if (item != null && PlanCanPack(item) &&
+        startPlanPack();
+        if (item != null && planCanPack(item) &&
             pawn.CanReserveAndReach((LocalTargetInfo)item, PathEndMode.Touch, Danger.Deadly))
         {
             return new Job(DefDatabase<JobDef>.GetNamed("PackBagSingle"), parent, item);
@@ -254,7 +254,7 @@ public class ThingBagComp : ThingComp
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("UnpackBag"));
         job.SetTarget(TargetIndex.C, parent);
-        StartPlanUnpack(things);
+        startPlanUnpack(things);
         var thing = PlanUnpackOne();
         foreach (var item in GenRadial.RadialCellsAround(pos, Props.Radius, true))
         {
@@ -287,7 +287,7 @@ public class ThingBagComp : ThingComp
     {
         var job = new Job(DefDatabase<JobDef>.GetNamed("UnpackBagSingle"));
         job.SetTarget(TargetIndex.C, parent);
-        StartPlanUnpack([item]);
+        startPlanUnpack([item]);
         var thing = PlanUnpackOne();
         foreach (var item2 in GenRadial.RadialCellsAround(pos, Props.Radius, true))
         {
@@ -307,7 +307,7 @@ public class ThingBagComp : ThingComp
 
     public override void PostDestroy(DestroyMode mode, Map previousMap)
     {
-        foreach (var item in items)
+        foreach (var item in Items)
         {
             item.Destroy(mode);
         }
@@ -318,7 +318,7 @@ public class ThingBagComp : ThingComp
         yield return new Command_Action
         {
             defaultLabel = "Rename".Translate(),
-            icon = Rename,
+            icon = rename,
             action = delegate { Find.WindowStack.Add(new Dialog_RenameCrate(this)); }
         };
         if (!Full)
@@ -326,7 +326,7 @@ public class ThingBagComp : ThingComp
             yield return new Command_Action
             {
                 defaultLabel = "Pack".Translate(),
-                icon = Pack,
+                icon = pack,
                 action = delegate
                 {
                     var targetParams2 = new TargetingParameters
@@ -355,7 +355,7 @@ public class ThingBagComp : ThingComp
         yield return new Command_Action
         {
             defaultLabel = "Unpack".Translate(),
-            icon = Unpack,
+            icon = unpack,
             action = delegate
             {
                 var targetParams = new TargetingParameters
@@ -369,7 +369,7 @@ public class ThingBagComp : ThingComp
                 };
                 Find.Targeter.BeginTargeting(targetParams, delegate(LocalTargetInfo t)
                 {
-                    Find.CurrentMap.GetThingBagTasks().AddTask(false, parent, items.Where(i => !Find.CurrentMap
+                    Find.CurrentMap.GetThingBagTasks().AddTask(false, parent, Items.Where(i => !Find.CurrentMap
                             .GetThingBagTasks().Tasks(false)
                             .Any(task => task.bag.Thing == parent && task.items != null && task.items.Contains(i)))
                         .ToList(), t.Cell);

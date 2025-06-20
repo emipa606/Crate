@@ -55,7 +55,7 @@ internal class WorkGiver_Pack : WorkGiver_Scanner
 
     public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn Pawn)
     {
-        var list = Pawn.Map.GetThingBagTasks().tasks;
+        var list = Pawn.Map.GetThingBagTasks().MapTasks;
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < list.Count; index++)
         {

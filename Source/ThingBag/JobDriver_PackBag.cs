@@ -7,7 +7,7 @@ namespace ThingBag;
 
 internal class JobDriver_PackBag : JobDriver
 {
-    private ThingBagComp bag => (TargetThingA as ThingWithComps)?.GetComp<ThingBagComp>();
+    private ThingBagComp Bag => (TargetThingA as ThingWithComps)?.GetComp<ThingBagComp>();
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
@@ -28,8 +28,8 @@ internal class JobDriver_PackBag : JobDriver
         yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
         yield return Toils_Haul.StartCarryThing(TargetIndex.A);
         yield return Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex.B);
-        var extracttarget = Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.B);
-        yield return extracttarget;
+        var extractTarget = Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.B);
+        yield return extractTarget;
         var checkNextQueuedTarget = Toils_JobTransforms.ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex.B);
         yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch)
             .JumpIfDespawnedOrNullOrForbidden(TargetIndex.B, checkNextQueuedTarget);
@@ -38,19 +38,19 @@ internal class JobDriver_PackBag : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay,
             defaultDuration = 60
         };
-        packItem.AddFinishAction(delegate { bag.PackOne(TargetThingB); });
+        packItem.AddFinishAction(delegate { Bag.PackOne(TargetThingB); });
         packItem.WithProgressBarToilDelay(TargetIndex.B);
         packItem.JumpIfDespawnedOrNullOrForbidden(TargetIndex.B, checkNextQueuedTarget);
         yield return packItem;
         yield return checkNextQueuedTarget;
-        yield return Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, extracttarget);
+        yield return Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, extractTarget);
         var finishJob = new Toil();
         finishJob.AddFinishAction(delegate
         {
-            var task = bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(bag.parent, true);
+            var task = Bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(Bag.parent, true);
             if (task != null)
             {
-                bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
+                Bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
             }
         });
         yield return finishJob;

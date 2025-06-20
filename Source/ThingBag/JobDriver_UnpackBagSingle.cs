@@ -7,7 +7,7 @@ namespace ThingBag;
 
 internal class JobDriver_UnpackBagSingle : JobDriver
 {
-    private ThingBagComp bag => (TargetC.Thing as ThingWithComps)?.GetComp<ThingBagComp>();
+    private ThingBagComp Bag => (TargetC.Thing as ThingWithComps)?.GetComp<ThingBagComp>();
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
@@ -33,7 +33,7 @@ internal class JobDriver_UnpackBagSingle : JobDriver
         };
         unpackItem.AddFinishAction(delegate
         {
-            var thing = bag.UnpackOneRaw(TargetThingA);
+            var thing = Bag.UnpackOneRaw(TargetThingA);
             if (thing != null)
             {
                 unpackItem.actor.carryTracker.TryStartCarry(thing);

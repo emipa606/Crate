@@ -15,11 +15,8 @@ internal class WorkGiver_Unpack : WorkGiver_Scanner
             return null;
         }
 
-        var task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, false);
-        if (task == null)
-        {
-            task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, false, true);
-        }
+        var task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, false) ??
+                   pawn.Map.GetThingBagTasks().FirstTaskFor(t, false, true);
 
         if (task == null)
         {
@@ -53,7 +50,7 @@ internal class WorkGiver_Unpack : WorkGiver_Scanner
 
     public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn Pawn)
     {
-        var list = Pawn.Map.GetThingBagTasks().tasks;
+        var list = Pawn.Map.GetThingBagTasks().MapTasks;
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < list.Count; index++)
         {

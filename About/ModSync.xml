@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>2217b79f-a0b3-4eb9-8c00-39446fe88f9d</ID>
   <ModName>Crate (Continued)</ModName>
-  <Version>1.5.0</Version>
+  <Version>1.6.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>emipa606</Owner>
@@ -12,3 +12,4 @@
     <Branch>master</Branch>
   </Host>
 </ModSyncNinjaData>
+

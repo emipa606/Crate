@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: pack items into crate -->
+  <PackThingBag.label>pack items into crate</PackThingBag.label>
+  <!-- EN: packing -->
+  <PackThingBag.gerund>packing</PackThingBag.gerund>
+  <!-- EN: pack -->
+  <PackThingBag.verb>pack</PackThingBag.verb>
+  <!-- EN: Unpack items from crate -->
+  <UnpackThingBag.label>Unpack items from crate</UnpackThingBag.label>
+  <!-- EN: unpacking -->
+  <UnpackThingBag.gerund>unpacking</UnpackThingBag.gerund>
+  <!-- EN: unpack -->
+  <UnpackThingBag.verb>unpack</UnpackThingBag.verb>
+</LanguageData>

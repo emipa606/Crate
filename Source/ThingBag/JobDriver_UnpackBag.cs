@@ -7,7 +7,7 @@ namespace ThingBag;
 
 internal class JobDriver_UnpackBag : JobDriver
 {
-    private ThingBagComp bag => (TargetC.Thing as ThingWithComps)?.GetComp<ThingBagComp>();
+    private ThingBagComp Bag => (TargetC.Thing as ThingWithComps)?.GetComp<ThingBagComp>();
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
@@ -30,7 +30,7 @@ internal class JobDriver_UnpackBag : JobDriver
         var initExtractItem = Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.B);
         yield return initExtractItem;
         yield return Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.A);
-        var JumpNext = Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, initExtractItem);
+        var jumpNext = Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, initExtractItem);
         yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.Touch);
         yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
         var packItem = new Toil
@@ -38,17 +38,17 @@ internal class JobDriver_UnpackBag : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay,
             defaultDuration = 60
         };
-        packItem.AddFinishAction(delegate { bag.UnpackOne(TargetB.Cell, Map, TargetThingA); });
+        packItem.AddFinishAction(delegate { Bag.UnpackOne(TargetB.Cell, Map, TargetThingA); });
         packItem.WithProgressBarToilDelay(TargetIndex.B);
         yield return packItem;
-        yield return JumpNext;
+        yield return jumpNext;
         var finishJob = new Toil();
         finishJob.AddFinishAction(delegate
         {
-            var task = bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(bag.parent, false);
+            var task = Bag.parent.MapHeld.GetThingBagTasks().FirstTaskFor(Bag.parent, false);
             if (task != null)
             {
-                bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
+                Bag.parent.MapHeld.GetThingBagTasks().RemoveTask(task);
             }
         });
         yield return finishJob;
