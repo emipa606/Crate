@@ -3,4 +3,22 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="ThingBag/ThingBag.csproj" />
+  <Folder Name="/.github/">
+    <File Path="../.github/copilot-instructions.md" />
+  </Folder>
+  <Folder Name="/XML/Defs/JobDefs/">
+    <File Path="../Defs/JobDefs/Jobs_Misc.xml" />
+  </Folder>
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/Crate.xml" />
+  </Folder>
+  <Folder Name="/XML/Defs/ThingDefs_Items/">
+    <File Path="../Defs/ThingDefs_Items/Items_Usable.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
+  <Folder Name="/XML/Defs/">
+    <File Path="../Defs/WorkGivers.xml" />
+  </Folder>
 </Solution>

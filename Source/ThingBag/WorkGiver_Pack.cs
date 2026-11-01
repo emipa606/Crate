@@ -15,11 +15,8 @@ internal class WorkGiver_Pack : WorkGiver_Scanner
             return null;
         }
 
-        var task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, true);
-        if (task == null)
-        {
-            task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, true, true);
-        }
+        var task = pawn.Map.GetThingBagTasks().FirstTaskFor(t, true) ??
+                   pawn.Map.GetThingBagTasks().FirstTaskFor(t, true, true);
 
         if (task == null)
         {
@@ -53,15 +50,15 @@ internal class WorkGiver_Pack : WorkGiver_Scanner
         return job2;
     }
 
-    public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn Pawn)
+    public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
     {
-        var list = Pawn.Map.GetThingBagTasks().MapTasks;
+        var list = pawn.Map.GetThingBagTasks().MapTasks;
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < list.Count; index++)
         {
             var task = list[index];
             if (task.Pack &&
-                Pawn.CanReserveAndReach((LocalTargetInfo)task.bag.Thing, PathEndMode.Touch, Danger.Deadly))
+                pawn.CanReserveAndReach((LocalTargetInfo)task.bag.Thing, PathEndMode.Touch, Danger.Deadly))
             {
                 yield return task.bag.Thing;
             }

@@ -48,15 +48,15 @@ internal class WorkGiver_Unpack : WorkGiver_Scanner
         return job2;
     }
 
-    public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn Pawn)
+    public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
     {
-        var list = Pawn.Map.GetThingBagTasks().MapTasks;
+        var list = pawn.Map.GetThingBagTasks().MapTasks;
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < list.Count; index++)
         {
             var task = list[index];
             if (!task.Pack &&
-                Pawn.CanReserveAndReach((LocalTargetInfo)task.bag.Thing, PathEndMode.Touch, Danger.Deadly))
+                pawn.CanReserveAndReach((LocalTargetInfo)task.bag.Thing, PathEndMode.Touch, Danger.Deadly))
             {
                 yield return task.bag.Thing;
             }

@@ -27,7 +27,7 @@ internal class Dialog_RenameCrate : Window
     private static int MaxNameLength => 28;
     public override Vector2 InitialSize => new(280f, 175f);
 
-    private AcceptanceReport NameIsValid()
+    private static AcceptanceReport NameIsValid()
     {
         return true;
     }

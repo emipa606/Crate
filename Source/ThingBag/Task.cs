@@ -5,10 +5,10 @@ namespace ThingBag;
 
 public class Task : IExposable
 {
+    public bool Pack;
     public LocalTargetInfo bag;
 
     public List<Thing> items;
-    public bool Pack;
 
     public LocalTargetInfo pos;
 
